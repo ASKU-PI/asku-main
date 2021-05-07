@@ -4,3 +4,6 @@
 [submodule "asku-auth-service"]
 	path = asku-auth-service
 	url = https://github.com/ASKU-PI/asku-auth-service
+[submodule "asku-config"]
+	path = asku-config
+	url = https://github.com/ASKU-PI/asku-config
