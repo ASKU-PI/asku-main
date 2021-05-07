@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pl.asku</groupId>
-    <artifactId>asku</artifactId>
+    <artifactId>asku-main</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>asku</name>
+    <name>asku-main</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
