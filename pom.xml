@@ -36,9 +36,7 @@
     </dependencyManagement>
 
     <modules>
-        <module>asku-cloud/config</module>
-        <module>asku-cloud/discovery</module>
-        <module>asku-cloud/gateway</module>
+        <module>asku-cloud</module>
         <module>asku-auth-service</module>
     </modules>
 
