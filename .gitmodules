@@ -1,0 +1,3 @@
+[submodule "asku-cloud"]
+	path = asku-cloud
+	url = https://github.com/ASKU-PI/asku-cloud
