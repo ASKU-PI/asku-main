@@ -1,0 +1,58 @@
+version: '3.9'
+services:
+  config:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    build: asku-cloud/config
+    expose:
+      - 8888
+    restart: always
+
+  discovery:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    build: asku-cloud/discovery
+    restart: always
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 8761:8761
+
+  gateway:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      JWT_SECRET_KEY: $JWT_SECRET_KEY
+    build: asku-cloud/gateway
+    restart: always
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 4000:4000
+
+  auth-db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: $AUTH_DB_PASSWORD
+      MYSQL_DATABASE: authdb
+    ports:
+      - 3305:3306
+
+  asku-auth-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      JWT_SECRET_KEY: $JWT_SECRET_KEY
+      AUTH_DB_USERNAME: $AUTH_DB_USERNAME
+      AUTH_DB_PASSWORD: $AUTH_DB_PASSWORD
+    build: asku-auth-service
+    restart: always
+    depends_on:
+      config:
+        condition: service_healthy
+      auth-db:
+        condition: service_started
+    ports:
+      - 8889:8889
