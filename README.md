@@ -5,7 +5,7 @@ Repozytorium zawiera podmoduły odpoiwadające serwisom, Mavenowy plik .pom będ
 # Jak uruchomić?
 
 1. Sklonuj repozytorium
-2. Użyj narzecia git-crypt w celu odszyfrowania .env 
+2. Użyj narzecia git-crypt w celu odszyfrowania .env (klucz wam wysłałem :))
 `git-crypt unlock key`
 3. Zbuduj pliki .jar każdego serwisu
 `mvn package -DskipTests`
