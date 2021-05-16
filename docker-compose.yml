@@ -1,7 +1,20 @@
 version: '3.9'
 services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+
   config:
     environment:
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: asku-cloud/config
     expose:
@@ -10,18 +23,28 @@ services:
 
   discovery:
     environment:
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: asku-cloud/discovery
     restart: always
+    depends_on:
+      config:
+        condition: service_healthy
     ports:
       - 8761:8761
 
   gateway:
     environment:
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       JWT_SECRET_KEY: $JWT_SECRET_KEY
     build: asku-cloud/gateway
     restart: always
+    depends_on:
+      config:
+        condition: service_healthy
     ports:
       - 4000:4000
 
@@ -41,7 +64,12 @@ services:
       JWT_SECRET_KEY: $JWT_SECRET_KEY
       AUTH_DB_USERNAME: $AUTH_DB_USERNAME
       AUTH_DB_PASSWORD: $AUTH_DB_PASSWORD
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
     build: asku-auth-service
     restart: always
-    ports:
-      - 8889:8889
+    depends_on:
+      config:
+        condition: service_healthy
+    expose:
+      - 8889
