@@ -38,6 +38,7 @@
     <modules>
         <module>asku-cloud</module>
         <module>asku-auth-service</module>
+        <module>asku-account-service</module>
     </modules>
 
 </project>
