@@ -7,6 +7,9 @@
 [submodule "asku-config"]
 	path = asku-config
 	url = https://github.com/ASKU-PI/asku-config
+[submodule "asku-account-service"]
+	path = asku-account-service
+	url = https://github.com/ASKU-PI/asku-account-service
 [submodule "asku-ui"]
 	path = asku-ui
 	url = https://github.com/ASKU-PI/asku-ui
