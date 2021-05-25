@@ -17,8 +17,8 @@ services:
       RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: asku-cloud/config
-    expose:
-      - 8888
+    ports:
+      - 8888:8888
     restart: always
 
   discovery:
@@ -28,9 +28,9 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: asku-cloud/discovery
     restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
+    depends_on:
+      config:
+        condition: service_healthy
     ports:
       - 8761:8761
 
@@ -42,9 +42,11 @@ services:
       JWT_SECRET_KEY: $JWT_SECRET_KEY
     build: asku-cloud/gateway
     restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
     ports:
       - 4000:4000
 
@@ -68,11 +70,13 @@ services:
       RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
     build: asku-auth-service
     restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
-    expose:
-      - 8889
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+    ports:
+      - 8889:8889
 
   account-db:
     image: mysql
@@ -94,8 +98,10 @@ services:
       RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
     build: asku-account-service
     restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
-    expose:
-      - 8890
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+    ports:
+      - 8890:8890
