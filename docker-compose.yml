@@ -10,6 +10,11 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 20s
+      timeout: 10s
+      retries: 5
 
   config:
     environment:
@@ -20,6 +25,9 @@ services:
     ports:
       - 8888:8888
     restart: always
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   discovery:
     environment:
