@@ -39,6 +39,7 @@
         <module>asku-cloud</module>
         <module>asku-auth-service</module>
         <module>asku-account-service</module>
+        <module>asku-magazine-service</module>
     </modules>
 
 </project>

@@ -96,10 +96,9 @@ services:
     ports:
       - 3304:3306
 
-  account-account-service:
+  asku-account-service:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      JWT_SECRET_KEY: $JWT_SECRET_KEY
       ACCOUNT_DB_USERNAME: $ACCOUNT_DB_USERNAME
       ACCOUNT_DB_PASSWORD: $ACCOUNT_DB_PASSWORD
       RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
@@ -113,3 +112,30 @@ services:
         condition: service_healthy
     ports:
       - 8890:8890
+
+  magazine-db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: $MAGAZINE_DB_PASSWORD
+      MYSQL_DATABASE: magazinedb
+    ports:
+      - 3303:3306
+
+  asku-magazine-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      MAGAZINE_DB_USERNAME: $MAGAZINE_DB_USERNAME
+      MAGAZINE_DB_PASSWORD: $MAGAZINE_DB_PASSWORD
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+    build: asku-magazine-service
+    restart: always
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+    ports:
+      - 8891:8891
