@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:3.8
     container_name: rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
@@ -11,7 +11,7 @@ services:
       - 5672:5672
       - 15672:15672
     healthcheck:
-      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      test: rabbitmq-diagnostics -q ping
       interval: 20s
       timeout: 10s
       retries: 5
