@@ -8,8 +8,8 @@ services:
       RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
     restart: always
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 20s
@@ -23,7 +23,7 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: asku-cloud/config
     ports:
-      - 8888:8888
+      - "8888:8888"
     restart: always
     depends_on:
       rabbitmq:
@@ -40,7 +40,7 @@ services:
       config:
         condition: service_healthy
     ports:
-      - 8761:8761
+      - "8761:8761"
 
   gateway:
     environment:
@@ -56,7 +56,7 @@ services:
       discovery:
         condition: service_healthy
     ports:
-      - 4000:4000
+      - "4000:4000"
 
   auth-db:
     image: mysql
@@ -66,7 +66,7 @@ services:
       MYSQL_ROOT_PASSWORD: $AUTH_DB_PASSWORD
       MYSQL_DATABASE: authdb
     ports:
-      - 3305:3306
+      - "3305:3306"
 
   asku-auth-service:
     environment:
@@ -90,7 +90,7 @@ services:
       discovery:
         condition: service_healthy
     ports:
-      - 8889:8889
+      - "8889:8889"
 
   account-db:
     image: mysql
@@ -100,7 +100,7 @@ services:
       MYSQL_ROOT_PASSWORD: $ACCOUNT_DB_PASSWORD
       MYSQL_DATABASE: accountdb
     ports:
-      - 3304:3306
+      - "3304:3306"
 
   asku-account-service:
     environment:
@@ -117,7 +117,7 @@ services:
       discovery:
         condition: service_healthy
     ports:
-      - 8890:8890
+      - "8890:8890"
 
   magazine-db:
     image: mysql
@@ -127,7 +127,7 @@ services:
       MYSQL_ROOT_PASSWORD: $MAGAZINE_DB_PASSWORD
       MYSQL_DATABASE: magazinedb
     ports:
-      - 3303:3306
+      - "3303:3306"
 
   asku-magazine-service:
     environment:
@@ -145,4 +145,4 @@ services:
       discovery:
         condition: service_healthy
     ports:
-      - 8891:8891
+      - "8891:8891"
