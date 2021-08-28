@@ -149,3 +149,25 @@ services:
         condition: service_healthy
     ports:
       - "8891:8891"
+
+  image-db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: $IMAGE_DB_PASSWORD
+      MYSQL_DATABASE: imagedb
+    ports:
+      - "3302:3306"
+
+  asku-image-service:
+    environment:
+      IMAGE_DB_USERNAME: $IMAGE_DB_USERNAME
+      IMAGE_DB_PASSWORD: $IMAGE_DB_PASSWORD
+    build: asku-image-service
+    restart: always
+    depends_on:
+      discovery:
+        condition: service_healthy
+    ports:
+      - "8892:8892"

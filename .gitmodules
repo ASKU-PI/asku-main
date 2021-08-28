@@ -13,3 +13,6 @@
 [submodule "asku-magazine-service"]
 	path = asku-magazine-service
 	url = https://github.com/ASKU-PI/asku-magazine-service
+[submodule "asku-image-service"]
+	path = asku-image-service
+	url = https://github.com/ASKU-PI/asku-image-service
