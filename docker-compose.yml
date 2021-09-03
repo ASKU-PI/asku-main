@@ -151,14 +151,14 @@ services:
       - "8891:8891"
 
   image-db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
+    image: mongo
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: $IMAGE_DB_PASSWORD
-      MYSQL_DATABASE: imagedb
+      MONGO_INITDB_ROOT_USERNAME: $IMAGE_DB_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: $IMAGE_DB_PASSWORD
+      MONGO_INITDB_DATABASE: imagedb
     ports:
-      - "3302:3306"
+      - "27017:27017"
 
   asku-image-service:
     environment:
