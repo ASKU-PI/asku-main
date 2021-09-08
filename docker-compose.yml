@@ -66,7 +66,7 @@ services:
       MYSQL_ROOT_PASSWORD: $AUTH_DB_PASSWORD
     entrypoint:
       sh -c "
-        echo 'CREATE DATABASE IF NOT EXISTS authdb; CREATE DATABASE IF NOT EXISTS magazinedb;' > /docker-entrypoint-initdb.d/init.sql;
+        echo 'CREATE DATABASE IF NOT EXISTS authdb; CREATE DATABASE IF NOT EXISTS magazinedb; CREATE DATABASE IF NOT EXISTS accountdb;' > /docker-entrypoint-initdb.d/init.sql;
         /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
       "
     ports:
@@ -99,42 +99,22 @@ services:
     ports:
       - "8889:8889"
 
-  account-db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: $ACCOUNT_DB_PASSWORD
-      MYSQL_DATABASE: accountdb
-    ports:
-      - "3304:3306"
-
-  asku-account-service:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      ACCOUNT_DB_USERNAME: $ACCOUNT_DB_USERNAME
-      ACCOUNT_DB_PASSWORD: $ACCOUNT_DB_PASSWORD
-      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
-    build: asku-account-service
-    restart: always
-    depends_on:
-      config:
-        condition: service_healthy
-      discovery:
-        condition: service_healthy
-    ports:
-      - "8890:8890"
-
-  magazine-db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: $MAGAZINE_DB_PASSWORD
-      MYSQL_DATABASE: magazinedb
-    ports:
-      - "3303:3306"
+#  asku-account-service:
+#    environment:
+#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+#      ACCOUNT_DB_USERNAME: $ACCOUNT_DB_USERNAME
+#      ACCOUNT_DB_PASSWORD: $ACCOUNT_DB_PASSWORD
+#      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+#      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+#    build: asku-account-service
+#    restart: always
+#    depends_on:
+#      config:
+#        condition: service_healthy
+#      discovery:
+#        condition: service_healthy
+#    ports:
+#      - "8890:8890"
 
   asku-magazine-service:
     environment:
