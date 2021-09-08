@@ -58,13 +58,17 @@ services:
     ports:
       - "4000:4000"
 
-  auth-db:
+  db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: $AUTH_DB_PASSWORD
-      MYSQL_DATABASE: authdb
+    entrypoint:
+      sh -c "
+        echo 'CREATE DATABASE IF NOT EXISTS authdb; CREATE DATABASE IF NOT EXISTS magazinedb;' > /docker-entrypoint-initdb.d/init.sql;
+        /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      "
     ports:
       - "3305:3306"
 
