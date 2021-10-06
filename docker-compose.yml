@@ -124,6 +124,7 @@ services:
       RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
       RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
       JWT_SECRET_KEY: $JWT_SECRET_KEY
+      LOCATION_IQ_API_KEY: $LOCATION_IQ_API_KEY
     build: asku-magazine-service
     restart: always
     depends_on:
