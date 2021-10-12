@@ -1,38 +1,15 @@
 version: '3.9'
 services:
-  rabbitmq:
-    image: rabbitmq:3.8
-    container_name: rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
-    restart: always
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 20s
-      timeout: 10s
-      retries: 5
-
   config:
     environment:
-      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: asku-cloud/config
     ports:
       - "8888:8888"
     restart: always
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
 
   discovery:
     environment:
-      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     build: asku-cloud/discovery
     restart: always
@@ -44,8 +21,6 @@ services:
 
   gateway:
     environment:
-      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       JWT_SECRET_KEY: $JWT_SECRET_KEY
     build: asku-cloud/gateway
@@ -66,7 +41,7 @@ services:
       MYSQL_ROOT_PASSWORD: $AUTH_DB_PASSWORD
     entrypoint:
       sh -c "
-        echo 'CREATE DATABASE IF NOT EXISTS authdb; CREATE DATABASE IF NOT EXISTS magazinedb; CREATE DATABASE IF NOT EXISTS accountdb;' > /docker-entrypoint-initdb.d/init.sql;
+        echo 'CREATE DATABASE IF NOT EXISTS authdb; CREATE DATABASE IF NOT EXISTS magazinedb;' > /docker-entrypoint-initdb.d/init.sql;
         /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
       "
     ports:
@@ -78,8 +53,6 @@ services:
       JWT_SECRET_KEY: $JWT_SECRET_KEY
       AUTH_DB_USERNAME: $AUTH_DB_USERNAME
       AUTH_DB_PASSWORD: $AUTH_DB_PASSWORD
-      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
       TEST_USER_USERNAME: $TEST_USER_USERNAME
       TEST_USER_PASSWORD: $TEST_USER_PASSWORD
       TEST_MODERATOR_USERNAME: $TEST_MODERATOR_USERNAME
@@ -99,30 +72,11 @@ services:
     ports:
       - "8889:8889"
 
-#  asku-account-service:
-#    environment:
-#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-#      ACCOUNT_DB_USERNAME: $ACCOUNT_DB_USERNAME
-#      ACCOUNT_DB_PASSWORD: $ACCOUNT_DB_PASSWORD
-#      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-#      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
-#    build: asku-account-service
-#    restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
-#      discovery:
-#        condition: service_healthy
-#    ports:
-#      - "8890:8890"
-
   asku-magazine-service:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       MAGAZINE_DB_USERNAME: $MAGAZINE_DB_USERNAME
       MAGAZINE_DB_PASSWORD: $MAGAZINE_DB_PASSWORD
-      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
       JWT_SECRET_KEY: $JWT_SECRET_KEY
       LOCATION_IQ_API_KEY: $LOCATION_IQ_API_KEY
     build: asku-magazine-service
