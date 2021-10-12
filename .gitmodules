@@ -7,9 +7,6 @@
 [submodule "asku-config"]
 	path = asku-config
 	url = https://github.com/ASKU-PI/asku-config
-[submodule "asku-account-service"]
-	path = asku-account-service
-	url = https://github.com/ASKU-PI/asku-account-service
 [submodule "asku-magazine-service"]
 	path = asku-magazine-service
 	url = https://github.com/ASKU-PI/asku-magazine-service
