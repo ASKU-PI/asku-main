@@ -1,6 +1,7 @@
 # Główne repozytorium ASKU
 
-Repozytorium zawiera podmoduły odpoiwadające serwisom, Mavenowy plik .pom będący parentem dla serwisów, a także plik docker-compose oraz zaszyfrowany .env
+Repozytorium zawiera podmoduły odpoiwadające serwisom, Mavenowy plik .pom będący parentem dla serwisów, a także plik
+docker-compose oraz zaszyfrowany .env
 
 ## Jak uruchomić?
 
@@ -8,7 +9,7 @@ Repozytorium zawiera podmoduły odpoiwadające serwisom, Mavenowy plik .pom będ
 
 1. Sklonuj repozytorium
 2. Użyj narzecia git-crypt w celu odszyfrowania .env (klucz wam wysłałem :))
-`git-crypt unlock key`
+   `git-crypt unlock key`
 3. Zbuduj pliki .jar każdego serwisu
-`mvn package -DskipTests`
+   `mvn package -DskipTests`
 4. Uruchom docker-compose: `docker-compose up`
