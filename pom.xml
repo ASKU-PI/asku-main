@@ -20,7 +20,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencyManagement>
