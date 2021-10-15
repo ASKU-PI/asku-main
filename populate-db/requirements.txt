@@ -2,4 +2,4 @@ Faker
 requests
 pandas
 sqlalchemy
-mysqlclient
+pymsql
