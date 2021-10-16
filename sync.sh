@@ -10,6 +10,9 @@ git config --global credential.helper "cache --timeout=3600"
 
 printf "${LIGHT_BLUE} \nPULLING REPOS...\n\n${NC}"
 
+printf "${LIGHT_BLUE} \nASKU-MAIN...\n\n${NC}"
+git checkout main && git pull
+
 printf "${LIGHT_BLUE} \nASKU-AUTH-SERVICE...\n\n${NC}"
 cd asku-auth-service && git checkout main && git pull && cd ..
 
