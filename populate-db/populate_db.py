@@ -89,7 +89,6 @@ def add_magazines(number):
             magazines_data['building'].append(building)
             magazines_data['longitude'].append(longitude)
             magazines_data['latitude'].append(latitude)
-            magazines_data['created_date'].append(date.today())
             magazines_data['type'].append(random.choice([None, 'GARAGE', 'WAREHOUSE', 'FLAT', 'CELL']))
             magazines_data['heating'].append(random.choice([None, 'ELECTRIC', 'WATER', 'NONE']))
             magazines_data['light'].append(random.choice([None, 'DARK', 'NATURAL', 'NOT_NATURAL']))
