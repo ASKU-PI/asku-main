@@ -7,6 +7,7 @@ from collections import defaultdict
 from sqlalchemy import create_engine
 import urllib.parse
 import pymysql
+from json.decoder import JSONDecodeError
 
 BASE_API_URL = 'http://localhost:4000/'
 
@@ -15,7 +16,7 @@ faker = Faker('pl_PL')
 registered_users = []
 
 def register_user():
-    endpoint = 'auth/api/register'
+    endpoint = 'magazine/api/user'
 
     first_name = faker.first_name()
     last_name = faker.last_name()
@@ -77,8 +78,9 @@ def add_magazines(number):
             latitude = response[0]["lat"]
             longitude = response[0]["lon"]
 
-            magazines_data['owner'].append(owner)
+            magazines_data['owner_id'].append(owner)
             magazines_data['start_date'].append(start_date)
+            magazines_data['title'].append('Test magazine')
             magazines_data['end_date'].append(end_date)
             magazines_data['min_area_to_rent'].append(min_area)
             magazines_data['area_in_meters'].append(area)
@@ -110,6 +112,10 @@ def add_magazines(number):
 
             print('LOADED MAGAZINE TO ADD...')
         except IndexError:
+            print("IndexError: Could not get magazine geolocation. Skipping...")
+            pass
+        except JSONDecodeError:
+            print("JSONDecodeError: Could not get magazine geolocation. Skipping...")
             pass
 
     df_magazines_data = pd.DataFrame(magazines_data)
