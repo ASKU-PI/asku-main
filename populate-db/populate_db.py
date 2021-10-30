@@ -8,12 +8,18 @@ from sqlalchemy import create_engine
 import urllib.parse
 import pymysql
 from json.decoder import JSONDecodeError
+import sys
 
 BASE_API_URL = 'http://localhost:4000/'
+
+engine = create_engine('mysql+pymysql://root:admin@localhost:3305/magazinedb', echo=False)
 
 faker = Faker('pl_PL')
 
 registered_users = []
+
+argv = sys.argv[1:]
+
 
 def register_user():
     endpoint = 'magazine/api/user'
@@ -120,15 +126,54 @@ def add_magazines(number):
 
     df_magazines_data = pd.DataFrame(magazines_data)
 
-    engine = create_engine('mysql+pymysql://root:admin@localhost:3305/magazinedb', echo=False)
-
     df_magazines_data.to_sql('magazine', con=engine, if_exists='append', index=False)
 
     print('ADDED MAGAZINES')
 
 
+def get_users_ids():
+    return pd.read_sql("SELECT id FROM user", con=engine).values
+
+
+def add_reservations(users_ids, magazine_ids, magazines_number):
+    users_ids = get_users_ids()
+    reservations_data = defaultdict(list)
+
+    for i in range(magazines_number):
+        id = i + 1
+        area_in_meters = round(random.uniform(5.5, 15.5), 2)
+        created_date = date.today()
+        start_date = date.today() + timedelta(days=random.uniform(0, 2))
+        end_date = start_date + timedelta(days=random.uniform(10, 100))
+        updated_date = date.today()
+        user_id = users_ids[round(random.uniform(0, len(users_ids) - 1))][0]
+        magazine_id = round(random.uniform(1, magazine_ids - 1))
+
+        try:
+            reservations_data['id'].append(id)
+            reservations_data['area_in_meters'].append(area_in_meters)
+            reservations_data['created_date'].append(created_date)
+            reservations_data['start_date'].append(start_date)
+            reservations_data['end_date'].append(end_date)
+            reservations_data['updated_date'].append(updated_date)
+            reservations_data['user_id'].append(user_id)
+            reservations_data['magazine_id'].append(magazine_id)
+
+            print('LOADED RESERVATION TO ADD...')
+        except IndexError:
+            pass
+        except JSONDecodeError:
+            pass
+
+    df_reservations_data = pd.DataFrame(reservations_data)
+
+    df_reservations_data.to_sql('reservation', con=engine, if_exists='append', index=False)
+
+    print('ADDED RESERVATIONS')
+
 if __name__ == '__main__':
-    for _ in range(30):
+    for _ in range(int(argv[0])):
         register_user()
-    add_magazines(200)
+    add_magazines(int(argv[1]))
+    add_reservations(int(argv[0]), int(argv[1]), int(argv[2]))
         

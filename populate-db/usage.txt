@@ -1,0 +1,1 @@
+usage: populate_db.py <users no> <spaces no> <reservations no>
