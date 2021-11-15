@@ -232,8 +232,8 @@ if __name__ == '__main__':
         add_magazine(user)
     for _ in range(20):
         user = random.choice(registered_users)
-        add_magazine(user, 'Kraków')
-    add_reservations(100)
+        add_magazine(user, 'Kraków') 
+    add_reservations(50)
         
         
 # def add_magazines(number):
