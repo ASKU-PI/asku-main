@@ -113,6 +113,10 @@ def add_magazine(owner, city = None):
     min_area = round(random.uniform(5.5, 50.5), 2)
     area = min_area + round(random.uniform(30.5, 200.5), 2)
 
+    whole = random.randint(1, 100) % 10 != 0
+    if whole:
+        min_area = None
+
     magazine_data = {
         'title': title,
         'country': country,
@@ -126,7 +130,7 @@ def add_magazine(owner, city = None):
         'type': random.choice(['GARAGE', 'WAREHOUSE', 'FLAT', 'CELL']),
         'heating': random.choice(['ELECTRIC', 'WATER', 'NONE']),
         'light': random.choice([True, False]),
-        'whole': random.choice([True, False]),
+        'whole': whole,
         'monitoring': random.choice([True, False]),
         'antiTheftDoors': random.choice([True, False]),
         'ventilation': random.choice([True, False]),
@@ -218,10 +222,38 @@ def add_reservations(quantity):
         magazine = random.choice(added_magazines)
         user = random.choice(registered_users)
         area = round(random.uniform(magazine['minAreaToRent'], magazine['areaInMeters']), 1)
+        if magazine['whole'] == True:
+            area = magazine['areaInMeters']
         start_date = random_date(magazine['startDate'], magazine['endDate'])
         end_date = random_date(start_date, magazine['endDate'])
 
         add_reservation(magazine, user, area, start_date, end_date)
+
+def add_reviews():
+    endpoint = 'magazine/api/review'
+
+    for reservation in added_reservations:
+        user = next(user for user in registered_users if user['email'] == reservation['user_id'])
+        auth_token = login_user(user['email'], user['password'])
+
+        review_data = {
+            'body': faker.paragraph(nb_sentences=random.uniform(1, 3)),
+            'rating': random.randint(1, 5)
+        }
+
+        headers = {'authorization': f'Bearer {auth_token}'}
+        params = {'reservationId': reservation['id']}
+
+        response = requests.post(BASE_API_URL + endpoint, json=review_data, headers=headers, params=params)
+
+        if response.status_code >= 200 and response.status_code < 300:
+            print(f'ADDED REVIEW: {review_data}')
+            review_data['id'] = json.loads(response.text)['id']
+            review_data['reservation_id'] = reservation['id']
+            added_reviews.append(review_data)
+        else:
+            print(f'ADD REVIEW_RESPONSE: {response.status_code} {review_data}')
+
 
 
 if __name__ == '__main__':
@@ -234,6 +266,7 @@ if __name__ == '__main__':
         user = random.choice(registered_users)
         add_magazine(user, 'Kraków') 
     add_reservations(50)
+    add_reviews()
         
         
 # def add_magazines(number):
