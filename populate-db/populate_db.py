@@ -230,9 +230,10 @@ def add_reservations(quantity):
     for _ in range(quantity):
         magazine = random.choice(added_magazines)
         user = random.choice(registered_users)
-        area = round(random.uniform(magazine['minAreaToRent'], magazine['areaInMeters']), 1)
         if magazine['whole'] == True:
             area = magazine['areaInMeters']
+        else:
+            area = round(random.uniform(magazine['minAreaToRent'], magazine['areaInMeters']), 1)
         start_date = random_date(magazine['startDate'], magazine['endDate'])
         end_date = random_date(start_date, magazine['endDate'])
 
