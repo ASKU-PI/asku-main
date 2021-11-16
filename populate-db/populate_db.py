@@ -159,7 +159,16 @@ def add_magazine(owner, city = None):
         'https://photos.gilmartinley.co.uk/13829/13829-21610-102473-007-ss.jpg',
         'https://www.peerspace.com/resources/wp-content/uploads/Los-Angeles-Historic-Event-Center-la-rental-1178x600.jpg',
         'https://www.renderhub.com/renderhub/large-warehouse-space/large-warehouse-space-01.jpg',
-        'https://static.carthrottle.com/workspace/uploads/posts/2016/03/924ee62bcd0949c5bfa5b7b2fdfa21c5.jpg'
+        'https://static.carthrottle.com/workspace/uploads/posts/2016/03/924ee62bcd0949c5bfa5b7b2fdfa21c5.jpg',
+        'https://www.prologis.com/sites/corporate/files/images/2019/09/large-ontario_dc9_3_11.jpg',
+        'http://www.infoarchitekta.pl/htmlarea/uploaded/2019/proj/Projekt_samowystarczalnego_Domu_Komorkowego/cell_house_01.jpg'
+        'https://images.all-free-download.com/images/graphiclarge/3d_empty_room_01_hd_picture_167786.jpg',
+        'https://t4.ftcdn.net/jpg/01/65/41/85/360_F_165418554_R3Sp6K4CgFqAXW9K0x0qrhgXXjNYgI7y.jpg',
+        'https://www.geisser.pl/wp-content/uploads/2018/07/mini2-e1538054311895.jpg',
+        'https://dobrystyl.com.pl/wp-content/uploads/2020/01/domek-na-narzedzia.jpg',
+        'https://polskiebudowlane.pl/portal/wp-content/uploads/2018/01/domek-narzedziowy-3.jpg',
+        'https://spottedlublin.pl/wp-content/uploads/2021/01/00013.jpg',
+        'https://i.ebayimg.com/images/g/QBAAAOSwtExg-HH0/s-l800.jpg'
     ]
 
     for i in range(1, 6):
