@@ -111,3 +111,5 @@ services:
         condition: service_healthy
     ports:
       - "8892:8892"
+    volumes:
+      - ./asku-image-service/uploads:/uploads
